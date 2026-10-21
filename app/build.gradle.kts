@@ -1,7 +1,21 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+// 正式签名配置从 keystore.properties 读取（该文件已被 .gitignore 忽略）。
+// 文件缺失时自动降级：release 使用 debug 签名，保证他人 clone 后仍可构建。
+val keystorePropsFile = rootProject.file("keystore.properties")
+val keystoreProps = Properties().apply {
+    if (keystorePropsFile.exists()) {
+        FileInputStream(keystorePropsFile).use { load(it) }
+    }
+}
+val hasReleaseKey = keystorePropsFile.exists() &&
+    !keystoreProps.getProperty("storeFile").isNullOrBlank()
 
 android {
     namespace = "com.quizhelper"
@@ -22,9 +36,24 @@ android {
         }
     }
 
+    signingConfigs {
+        if (hasReleaseKey) {
+            create("release") {
+                storeFile = file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            isShrinkResources = false
+            if (hasReleaseKey) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

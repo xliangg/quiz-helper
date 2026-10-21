@@ -12,5 +12,7 @@
 *.aab
 *.keystore
 *.jks
+keystore.properties
+keystore-info.txt
 .workbuddy/
 *.log

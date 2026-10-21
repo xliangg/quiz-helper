@@ -1,0 +1,14 @@
+<resources>
+    <style name="Theme.QuizHelper" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Theme.QuizHelper.Transparent" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

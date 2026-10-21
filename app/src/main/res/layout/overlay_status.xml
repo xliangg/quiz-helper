@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 顶部居中的小型状态胶囊：截图/发送/查询过程中的轻量反馈 -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/statusCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="22dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="#E6202020"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/pbStatus"
+            style="?android:attr/progressBarStyleSmall"
+            android:indeterminate="true"
+            android:indeterminateTint="#FFFFFF"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:text="正在截屏…"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:maxLines="2"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

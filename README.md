@@ -3,6 +3,15 @@
 悬浮球答题工具：点击悬浮球 → 自动截取整屏 → 把截图发给**多模态视觉大模型** → 弹卡片显示**答案 + 简要解析**。
 **只提示、不代填、不代提交**，答案由你自己抄写。
 
+## 下载安装（普通用户）
+
+无需编译，直接下载**正式签名版**：
+
+- 最新版：<https://github.com/xliangg/quiz-helper/releases/latest>
+- 直链：`quiz-helper-v0.1.0.apk`（约 12 MB）
+
+安装步骤：允许「安装未知来源应用」→ 打开 App 授予「显示在其他应用上层」→ 设置页填 API Key → 点「启动悬浮球」。
+
 ## 功能
 
 - 常驻可拖动悬浮球，点一下即截题
@@ -16,7 +25,8 @@
 
 ## 环境要求
 
-- Android 11+（minSdk 30），targetSdk 35，仅 `arm64-v8a`
+- Android 11+（minSdk 30），targetSdk 35
+- **不含 native 库**，所有 CPU 架构通用
 - JDK **17 或 21**（重要，见下）
 - Android SDK Platform 35 + Build-Tools 35
 - Gradle 由 wrapper 自动下载（已指向腾讯云镜像）
@@ -41,6 +51,33 @@ export JAVA_HOME="/c/Program Files/Java/jdk-21"   # 换成你的 JDK 17/21 路�
 ```
 
 产物：`app/build/outputs/apk/debug/app-debug.apk`
+
+### 打正式签名包（release）
+
+签名信息从**项目根目录**的 `keystore.properties` 读取（该文件与 `*.jks`、`*.keystore` 均已被 `.gitignore` 忽略，不会进仓库）：
+
+```properties
+storeFile=C:/Users/you/keystores/quiz-helper/quiz-helper-release.jks
+storePassword=你的密码
+keyAlias=quiz-helper
+keyPassword=你的密码
+```
+
+```bash
+./gradlew assembleRelease
+# 产物：app/build/outputs/apk/release/app-release.apk
+```
+
+若 `keystore.properties` 不存在，release 会**自动降级为 debug 签名**，保证他人 clone 后仍能直接构建，不会报错。
+
+生成自己的签名文件：
+
+```bash
+keytool -genkeypair -v -keystore quiz-helper-release.jks -alias quiz-helper \
+  -keyalg RSA -keysize 4096 -validity 10000
+```
+
+> 签名文件与密码是应用的「身份」，丢失后**无法为已安装版本发布升级包**（只能卸载重装），请离线备份到两处以上。
 
 ## 安装与使用
 
